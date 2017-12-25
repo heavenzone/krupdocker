@@ -26,4 +26,7 @@ party \
 adabab \
 randomForest \
 ensembleR \
-forecast
+forecast \
+rvest \
+XML \
+xml2
