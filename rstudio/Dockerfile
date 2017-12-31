@@ -6,7 +6,13 @@ ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ## Download and install RStudio server & dependencies
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
-RUN apt-get update \
+#更新apt-get源 使用163的源
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main non-free contrib" >/etc/apt/sources.list && \
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-proposed-updates main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main non-free contrib" >>/etc/apt/sources.list && \
+    echo "deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-proposed-updates main non-free contrib" >>/etc/apt/sources.list \
+ && apt-get update \
   && apt-get install -y --no-install-recommends \
     file \
     git \
@@ -79,28 +85,9 @@ RUN apt-get update \
            > /etc/services.d/rstudio/finish \
 && R -e "source('https://raw.githubusercontent.com/heavenzone/krupdocker/master/rstudio/biocLite.R')" \
 && install2.r --error \
---deps TRUE \ 
-tidyverse \
-dplyr \
-ggplot2 \ 
-devtools \
-formatR \
-remotes \
-selectr \
-rticles \
-blogdown \
-bookdown \
-bookdownplus \
-caret \
-C50 \
-party \
-adabag \
-randomForest \
-ensembleR \
-forecast \
-rvest \
-XML \
-xml2
+--deps TRUE \
+devtools 
+#dplyr ggplot2 tidyverse formatR remotes selectr rticles blogdown bookdown bookdownplus caret C50 party adabag randomForest ensembleR forecast  XML xml2
 
 COPY userconf.sh /etc/cont-init.d/userconf
 
