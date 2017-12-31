@@ -76,7 +76,7 @@ RUN apt-get update \
            > /etc/services.d/rstudio/run \
    && echo '#!/bin/bash \
            \n rstudio-server stop' \
-           > /etc/services.d/rstudio/finish
+           > /etc/services.d/rstudio/finish \
 && R -e "source('https://github.com/heavenzone/krupdocker/blob/master/rstudio/biocLite.R')" \
 && install2.r --error \
 --deps TRUE \ 
